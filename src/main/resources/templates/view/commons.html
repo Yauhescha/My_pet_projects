@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<header id="header" class="header-area main-header" th:fragment="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="logo-area">
+                    Logo
+                </div>
+            </div>
+            <div class="col-md-10">
+                Menu
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<footer class="footer-section" th:fragment="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-6">
+                Footer
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+</body>
+
+</html>
