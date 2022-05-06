@@ -36,17 +36,17 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
-    public Project update(Long id, ProjectDTO projectDTO) {
-        Optional<Project> optionalProject = projectRepository.findById(id);
-        if (optionalProject.isPresent()) {
-            Project project = optionalProject.get();
-
-            project.setName(projectDTO.getName());
-            project.setDescription(projectDTO.getDescription());
-            project.setUrl(projectDTO.getUrl());
-            return projectRepository.save(project);
+    public Project update(ProjectDTO projectDTO) {
+        Project project;
+        if (projectDTO.getId() == null) {
+            project = new Project();
         } else {
-            throw new ModelNotFoundException(id);
+            project = projectRepository.findById(projectDTO.getId()).orElseThrow(() -> new ModelNotFoundException(projectDTO.getId()));
         }
+
+        project.setName(projectDTO.getName());
+        project.setDescription(projectDTO.getDescription());
+        project.setUrl(projectDTO.getUrl());
+        return projectRepository.save(project);
     }
 }

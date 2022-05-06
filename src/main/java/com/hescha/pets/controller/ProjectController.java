@@ -28,25 +28,25 @@ public class ProjectController {
         return mainPage;
     }
 
-    @PostMapping()
-    public String creat(@ModelAttribute ProjectDTO projectDTO) {
-        Project project = projectService.create(projectDTO);
-        return "redirect:/project/" + project.getId();
-    }
-
     @GetMapping("/{id}")
     public String read(Model model, @PathVariable("id") Long id) {
         model.addAttribute("entity", projectService.findById(id).get());
         return mainPage;
     }
 
-    @PutMapping("/{id}")
-    public String update(@PathVariable("id") Long id, @ModelAttribute ProjectDTO projectDTO) {
-        projectService.update(id, projectDTO);
-        return "redirect:/project/" + id;
+    @GetMapping(path = {"/edit", "/edit/{id}"})
+    public String edit(Model model, @PathVariable(name = "id", required = false) Long id) {
+        model.addAttribute("entity", id == null ? ProjectDTO.builder().build() : projectService.findById(id).get());
+        return mainPage + "-edit";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/edit")
+    public String update(@ModelAttribute ProjectDTO projectDTO) {
+        projectService.update(projectDTO);
+        return "redirect:/project";
+    }
+
+    @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         projectService.delete(id);
         return "redirect:/project";

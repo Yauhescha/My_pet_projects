@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit page</title>
+    <div th:replace="~{view/commons :: head}"></div>
+</head>
+<body>
+
+<div th:insert="~{view/commons :: header}"></div>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>That is projects creation page</h1>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div>
+            <form action="/project/edit" method="POST" th:object="${entity}">
+                <table>
+                    <tr class="row">
+                        <th><label class="form-label">Название проекта</label></th>
+                        <td><input type="text" th:field="*{name}" name="name" required/></td>
+                    </tr>
+                    <tr class="row">
+                        <th><label class="form-label">Описание</label></th>
+                        <td><textarea th:field="*{description}" class="form-control" name="description" cols="30" rows="10"
+                                      maxlength="1000"></textarea></td>
+                    </tr>
+                    <tr class="row">
+                        <th><label class="form-label">Ссылка на проект</label></th>
+                        <td><input th:field="*{url}" class="form-control" type="text" name="url" required/></td>
+                    </tr>
+                    <tr class="row">
+                        <td><input type="hidden" id="id" th:field="*{id}"></td>
+                        <td><input type="button" class="myButton" value="Назад" onclick="history.back()"/></td>
+                        <td><input type="submit" class="myButton" value="Отправить"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+
+<div th:replace="~{view/commons :: footer}"></div>
+
+</body>
+</html>

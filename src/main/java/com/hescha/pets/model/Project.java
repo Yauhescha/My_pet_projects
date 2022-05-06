@@ -12,7 +12,9 @@ public class Project extends AbstractModel{
     @Column(nullable=false, unique=true)
     private String name;
 
+    @Column(length = 1000)
     private String description;
 
     private String url;
+
 }
