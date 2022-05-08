@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Projects</title>
+    <div th:replace="~{view/commons :: head}"></div>
+</head>
+<body>
+
+<div th:insert="~{view/commons :: header}"></div>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>That is projects page</h1>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div>
+            <table>
+                <tr class="row">
+                    <th class="col-md-1">Id</th>
+                    <th class="col-md-3">Name</th>
+                    <th class="col-md-5">Description</th>
+                    <th class="col-md-1">URL</th>
+                    <th class="col-md-1">Edit</th>
+                    <th class="col-md-1">Delete</th>
+                </tr>
+                <tr class="row" th:each="entity:${entities}">
+                    <td class="col-md-1" th:text="${entity.getId()}">Project id</td>
+                    <td class="col-md-3" th:text="${entity.getName()}">Project name</td>
+                    <td class="col-md-5" th:text="${entity.getDescription()}">Project description</td>
+                    <td class="col-md-1"><a th:href="${entity.getUrl()}">Go</a></td>
+                    <td class="col-md-1"><a th:href="'/project/edit/' + ${entity.getId()}">Edit</a></td>
+                    <td class="col-md-1"><a th:href="'/project/delete/'+${entity.getId()}">Remove</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <div class="row">
+                <div class="col">
+                    <a href="/project/edit">Create new project</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<div th:replace="~{view/commons :: footer}"></div>
+
+</body>
+</html>
