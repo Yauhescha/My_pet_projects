@@ -1,12 +1,12 @@
 package com.hescha.pets.service;
 
 import com.hescha.pets.dto.ProjectDTO;
-import com.hescha.pets.exception.ModelNotFoundException;
 import com.hescha.pets.model.Project;
 import com.hescha.pets.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +41,7 @@ public class ProjectService {
         if (projectDTO.getId() == null) {
             project = new Project();
         } else {
-            project = projectRepository.findById(projectDTO.getId()).orElseThrow(() -> new ModelNotFoundException(projectDTO.getId()));
+            project = projectRepository.findById(projectDTO.getId()).orElseThrow(EntityNotFoundException::new);
         }
 
         project.setName(projectDTO.getName());
