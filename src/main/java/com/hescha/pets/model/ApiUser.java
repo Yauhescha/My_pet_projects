@@ -1,5 +1,6 @@
 package com.hescha.pets.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -14,7 +15,10 @@ import java.util.Set;
 @Entity
 @Table(name = "my_user")
 public class ApiUser extends AbstractModel {
+
     private String username;
+
+    @JsonIgnore
     private String password;
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)

@@ -1,5 +1,6 @@
 package com.hescha.pets.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -19,6 +20,7 @@ public class Role extends AbstractModel {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable
+    @JsonIgnore
     private Set<ApiUser> users = new HashSet<>();
 
     @Override
