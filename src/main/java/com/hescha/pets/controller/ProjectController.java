@@ -1,55 +1,61 @@
 package com.hescha.pets.controller;
 
 import com.hescha.pets.dto.ProjectDTO;
+import com.hescha.pets.dto.builder.ProjectTransformer;
 import com.hescha.pets.model.Project;
 import com.hescha.pets.service.ProjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/project")
 @RequiredArgsConstructor
 public class ProjectController {
+
     private final ProjectService projectService;
 
-    private final String mainPage = "view/project";
+    @PostMapping
+    public ResponseEntity<ProjectDTO> create(@RequestBody ProjectDTO projectDTO) {
+        Project project = projectService.create(projectDTO);
+        return ResponseEntity.ok(ProjectTransformer.toDTO(project));
+    }
 
     @GetMapping
-    public String readAll(Model model) {
-        model.addAttribute("entities", projectService.getAll());
-        return mainPage;
+    public ResponseEntity<List<ProjectDTO>> readAll() {
+        List<ProjectDTO> projects = projectService.getAll().stream()
+            .map(ProjectTransformer::toDTO)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(projects);
     }
 
     @GetMapping("/{id}")
-    public String read(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("entity", projectService.findById(id).get());
-        return mainPage;
+    public ResponseEntity<ProjectDTO> read(@PathVariable("id") Long id) {
+        Project project = projectService.findById(id);
+        return ResponseEntity.ok(ProjectTransformer.toDTO(project));
     }
 
-    @GetMapping(path = {"/edit", "/edit/{id}"})
-    public String edit(Model model, @PathVariable(name = "id", required = false) Long id) {
-        model.addAttribute("entity", id == null ? ProjectDTO.builder().build() : projectService.findById(id).get());
-        return mainPage + "-edit";
+    @PutMapping("/{id}")
+    public ResponseEntity<ProjectDTO> update(@PathVariable("id") Long id,
+                                             @RequestBody ProjectDTO projectDTO) {
+        Project project = projectService.update(id, projectDTO);
+        return ResponseEntity.ok(ProjectTransformer.toDTO(project));
     }
 
-    @PostMapping("/edit")
-    public String update(@ModelAttribute ProjectDTO projectDTO) {
-        projectService.update(projectDTO);
-        return "redirect:/project";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         projectService.delete(id);
-        return "redirect:/project";
+        return ResponseEntity.ok().build();
     }
 
 }

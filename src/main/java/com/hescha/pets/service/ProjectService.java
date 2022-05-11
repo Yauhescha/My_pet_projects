@@ -1,6 +1,7 @@
 package com.hescha.pets.service;
 
 import com.hescha.pets.dto.ProjectDTO;
+import com.hescha.pets.exception.ProjectException;
 import com.hescha.pets.model.Project;
 import com.hescha.pets.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
@@ -20,11 +21,19 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public Optional<Project> findById(Long id) {
-        return projectRepository.findById(id);
+    public Project findById(Long id) {
+        Optional<Project> optionalProject = projectRepository.findById(id);
+        if (optionalProject.isPresent()) {
+            return optionalProject.get();
+        } else
+            throw new EntityNotFoundException();
     }
 
     public Project create(ProjectDTO projectDTO) {
+        if (projectRepository.existsByName(projectDTO.getName())) {
+            throw new ProjectException.ProjectWithSameNameAlreadyExists();
+        }
+
         Project project = new Project();
         project.setName(projectDTO.getName());
         project.setDescription(projectDTO.getDescription());
@@ -36,13 +45,8 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
-    public Project update(ProjectDTO projectDTO) {
-        Project project;
-        if (projectDTO.getId() == null) {
-            project = new Project();
-        } else {
-            project = projectRepository.findById(projectDTO.getId()).orElseThrow(EntityNotFoundException::new);
-        }
+    public Project update(Long id, ProjectDTO projectDTO) {
+        Project project = projectRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
         project.setName(projectDTO.getName());
         project.setDescription(projectDTO.getDescription());
