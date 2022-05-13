@@ -1,7 +1,7 @@
 package com.hescha.pets.controller;
 
 import com.hescha.pets.dto.ProjectDTO;
-import com.hescha.pets.dto.builder.ProjectTransformer;
+import com.hescha.pets.dto.transformer.ProjectTransformer;
 import com.hescha.pets.model.Project;
 import com.hescha.pets.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +27,13 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<ProjectDTO> create(@RequestBody ProjectDTO projectDTO) {
-        Project project = projectService.create(projectDTO);
+        Project project = projectService.create(ProjectTransformer.toModel(projectDTO));
         return ResponseEntity.ok(ProjectTransformer.toDTO(project));
     }
 
     @GetMapping
     public ResponseEntity<List<ProjectDTO>> readAll() {
-        List<ProjectDTO> projects = projectService.getAll().stream()
+        List<ProjectDTO> projects = projectService.findAll().stream()
             .map(ProjectTransformer::toDTO)
             .collect(Collectors.toList());
         return ResponseEntity.ok(projects);
@@ -41,7 +41,7 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProjectDTO> read(@PathVariable("id") Long id) {
-        Project project = projectService.findById(id);
+        Project project = projectService.read(id);
         return ResponseEntity.ok(ProjectTransformer.toDTO(project));
     }
 
