@@ -24,11 +24,7 @@ public abstract class CrudServiceImpl<T> implements CrudService<T> {
 
     @Override
     public T read(Long id) {
-        Optional<T> optionalT = repository.findById(id);
-        if (optionalT.isPresent()) {
-            return optionalT.get();
-        } else
-            throw new EntityNotFoundException();
+        return repository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
