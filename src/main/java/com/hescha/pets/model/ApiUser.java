@@ -1,7 +1,10 @@
 package com.hescha.pets.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +16,10 @@ import java.util.Set;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "my_user")
+@EqualsAndHashCode(callSuper = true)
 public class ApiUser extends AbstractModel {
 
     private String username;
