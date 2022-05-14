@@ -1,5 +1,6 @@
 package com.hescha.pets.service.impl;
 
+import com.hescha.pets.exception.UserException;
 import com.hescha.pets.model.ApiUser;
 import com.hescha.pets.repository.UserRepository;
 import com.hescha.pets.requestmodel.UserCreateRequest;
@@ -31,7 +32,7 @@ public class UserServiceImpl extends CrudServiceImpl<ApiUser> implements UserSer
     public ApiUser create(UserCreateRequest userCreateRequest) {
         Optional<ApiUser> byUsername = userRepository.findByUsername(userCreateRequest.getUsername());
         if (byUsername.isPresent()) {
-            throw new RuntimeException("User already registered. Please use different username.");
+            throw new UserException.UserWithSameUsernameAlreadyExistsException(userCreateRequest.getUsername());
         }
 
         ApiUser user = new ApiUser();

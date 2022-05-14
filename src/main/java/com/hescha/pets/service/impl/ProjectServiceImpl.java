@@ -19,7 +19,7 @@ public class ProjectServiceImpl extends CrudServiceImpl<Project> implements Proj
 
     public Project create(ProjectDTO projectDTO) {
         if (projectRepository.existsByName(projectDTO.getName())) {
-            throw new ProjectException.ProjectWithSameNameAlreadyExists();
+            throw new ProjectException.ProjectWithSameNameAlreadyExists(projectDTO.getName());
         }
 
         Project project = new Project();
