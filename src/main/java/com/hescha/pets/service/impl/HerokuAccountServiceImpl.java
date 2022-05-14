@@ -37,7 +37,7 @@ public class HerokuAccountServiceImpl extends CrudServiceImpl<HerokuAccount> imp
 
         Set<Project> projects = entity.getProjects();
         if (projects.contains(project)) {
-            throw new HerokuAccountAlreadyContainsThisProjectException();
+            throw new HerokuAccountAlreadyContainsThisProjectException(project.getName());
         }
         projects.add(project);
         update(entity);
@@ -50,7 +50,7 @@ public class HerokuAccountServiceImpl extends CrudServiceImpl<HerokuAccount> imp
 
         Set<Project> projects = entity.getProjects();
         if (!projects.contains(project)) {
-            throw new HerokuAccountDoesntHaveThisProject();
+            throw new HerokuAccountDoesntHaveThisProject(project.getName());
         }
         projects.remove(project);
         update(entity);
