@@ -2,8 +2,7 @@ package com.hescha.pets.config;
 
 import com.hescha.pets.security.JWTAuthenticationFilter;
 import com.hescha.pets.security.JWTAuthorizationFilter;
-import com.hescha.pets.service.AuthenticationUserDetailService;
-import org.springframework.http.HttpMethod;
+import com.hescha.pets.service.impl.AuthenticationUserDetailServiceImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final AuthenticationUserDetailService authenticationUserDetailService;
+    private final AuthenticationUserDetailServiceImpl authenticationUserDetailService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

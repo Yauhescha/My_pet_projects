@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 import static java.lang.String.format;
 
 @RequiredArgsConstructor
-public abstract class CrudServiceImpl<T> implements CrudService<T> {
+public class CrudServiceImpl<T> implements CrudService<T> {
     private final JpaRepository<T, Long> repository;
     private T t;
 
