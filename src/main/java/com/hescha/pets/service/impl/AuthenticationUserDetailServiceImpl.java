@@ -1,7 +1,8 @@
-package com.hescha.pets.service;
+package com.hescha.pets.service.impl;
 
 import com.hescha.pets.model.ApiUser;
 import com.hescha.pets.model.Role;
+import com.hescha.pets.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationUserDetailService implements UserDetailsService {
+public class AuthenticationUserDetailServiceImpl implements UserDetailsService {
     private final UserService userService;
 
     @Override

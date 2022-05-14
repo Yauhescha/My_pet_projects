@@ -12,7 +12,7 @@ public class HerokuAccountException extends AbstractException {
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public static class HerokuAccountAlreadyContainsThisProjectException extends HerokuAccountException {
-        private static final String MESSAGE = "Heroku Accoun already contains Project '%s'.";
+        private static final String MESSAGE = "Heroku Account already contains Project '%s'.";
 
         public HerokuAccountAlreadyContainsThisProjectException(String projectName) {
             super(format(MESSAGE, projectName));
