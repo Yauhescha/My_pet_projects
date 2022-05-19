@@ -4,6 +4,7 @@ import com.hescha.pets.dto.ProjectDTO;
 import com.hescha.pets.dto.transformer.ProjectTransformer;
 import com.hescha.pets.model.Project;
 import com.hescha.pets.service.ProjectService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,26 +27,30 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
+    @ApiOperation("Method to create a new project")
     public ResponseEntity<ProjectDTO> create(@RequestBody ProjectDTO projectDTO) {
         Project project = projectService.create(ProjectTransformer.toModel(projectDTO));
         return ResponseEntity.ok(ProjectTransformer.toDTO(project));
     }
 
     @GetMapping
+    @ApiOperation("Method to get all project")
     public ResponseEntity<List<ProjectDTO>> readAll() {
         List<ProjectDTO> projects = projectService.findAll().stream()
-            .map(ProjectTransformer::toDTO)
-            .collect(Collectors.toList());
+                .map(ProjectTransformer::toDTO)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(projects);
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Read project by id")
     public ResponseEntity<ProjectDTO> read(@PathVariable("id") Long id) {
         Project project = projectService.read(id);
         return ResponseEntity.ok(ProjectTransformer.toDTO(project));
     }
 
     @PutMapping("/{id}")
+    @ApiOperation("Update project by id")
     public ResponseEntity<ProjectDTO> update(@PathVariable("id") Long id,
                                              @RequestBody ProjectDTO projectDTO) {
         Project project = projectService.update(id, projectDTO);
@@ -53,6 +58,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation("Delete project by id")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         projectService.delete(id);
         return ResponseEntity.ok().build();
