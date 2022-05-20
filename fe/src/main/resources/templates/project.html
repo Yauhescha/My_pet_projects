@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Projects</title>
-    <div th:replace="~{view/commons :: head}"></div>
+    <div th:replace="~{commons :: head}"></div>
 </head>
 <body>
 
-<div th:insert="~{view/commons :: header}"></div>
+<div th:insert="~{commons :: header}"></div>
 
 <section>
     <div class="container">
@@ -31,13 +31,13 @@
                     <th class="col-md-1">Edit</th>
                     <th class="col-md-1">Delete</th>
                 </tr>
-                <tr class="row" th:each="entity:${entities}">
-                    <td class="col-md-1" th:text="${entity.getId()}">Project id</td>
-                    <td class="col-md-3" th:text="${entity.getName()}">Project name</td>
-                    <td class="col-md-5" th:text="${entity.getDescription()}">Project description</td>
-                    <td class="col-md-1"><a th:href="${entity.getUrl()}">Go</a></td>
-                    <td class="col-md-1"><a th:href="'/project/edit/' + ${entity.getId()}">Edit</a></td>
-                    <td class="col-md-1"><a th:href="'/project/delete/'+${entity.getId()}">Remove</a></td>
+                <tr class="row" th:each="entity:${list}">
+                    <td class="col-md-1" th:text="${entity.id}">Project id</td>
+                    <td class="col-md-3" th:text="${entity.name}">Project name</td>
+                    <td class="col-md-5" th:text="${entity.description}">Project description</td>
+                    <td class="col-md-1"><a th:href="${entity.url}">Go</a></td>
+                    <td class="col-md-1"><a th:href="'/project/edit/' + ${entity.id}">Edit</a></td>
+                    <td class="col-md-1"><a th:href="'/project/delete/'+${entity.id}">Remove</a></td>
                 </tr>
             </table>
         </div>
@@ -54,7 +54,7 @@
 </section>
 
 
-<div th:replace="~{view/commons :: footer}"></div>
+<div th:replace="~{commons :: footer}"></div>
 
 </body>
 </html>
