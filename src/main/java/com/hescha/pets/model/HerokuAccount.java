@@ -23,6 +23,6 @@ public class HerokuAccount extends AbstractModel {
 
     private String githubUsername;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Project.class, cascade = CascadeType.DETACH)
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Project.class, cascade = CascadeType.ALL, mappedBy = "herokuAccount")
     private Set<Project> projects = new HashSet<>();
 }

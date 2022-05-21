@@ -17,26 +17,41 @@ public class ProjectController {
 
     @Value("${be.api.adres}")
     private String apiAdres;
-    private RestTemplate template = new RestTemplate();
+    private final RestTemplate template = new RestTemplate();
 
     @GetMapping
     public String getPage(Model model) {
         ResponseEntity<List> response = template.getForEntity(apiAdres + "/project", List.class);
-        List body = response.getBody();
-        model.addAttribute("list", body);
+        model.addAttribute("list", response.getBody());
         return "project";
     }
 
     @PostMapping
-    public String create(@RequestBody ProjectDTO projectDTO) {
-        template.postForEntity(apiAdres + "/project", projectDTO, ResponseEntity.class);
+    public String createORUpdate(@ModelAttribute ProjectDTO projectDTO) {
+        if (projectDTO.getId() == null) {
+            template.postForObject(apiAdres + "/project", projectDTO, ProjectDTO.class);
+        } else {
+            template.put(apiAdres + "/project/" + projectDTO.getId(), projectDTO, ProjectDTO.class);
+        }
         return "redirect:/project";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editProject(Model model, @PathVariable("id") Long id) {
-        ResponseEntity<ProjectDTO> response = template.getForEntity(apiAdres + "/project" + "/" + id, ProjectDTO.class);
-        model.addAttribute("entity", response.getBody());
+    @GetMapping(path = {"/edit/{id}", "/edit"})
+    public String editProject(Model model, @PathVariable(name = "id", required = false) Long id) {
+        ProjectDTO dto;
+        if (id != null) {
+            ResponseEntity<ProjectDTO> response = template.getForEntity(apiAdres + "/project" + "/" + id, ProjectDTO.class);
+            dto = response.getBody();
+        } else {
+            dto = new ProjectDTO();
+        }
+        model.addAttribute("entity", dto);
         return "project-edit";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProject(@PathVariable("id") Long id) {
+        template.delete(apiAdres + "/project" + "/" + id);
+        return "redirect:/project";
     }
 }
